@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="Shadow">#AA000000</Color>
+    
+    <DropShadowEffect x:Key="TextShadowDepth" BlurRadius="5" ShadowDepth="7" Direction="300" Color="{StaticResource Shadow}" Opacity=".42" RenderingBias="Performance" />
+
+    <Style x:Key="ContainerStyle">
+        <Style.Setters>
+            <Setter Property="Control.Margin" Value="10" />
+        </Style.Setters>
+    </Style> 
+    
+    <Style x:Key="LogoStyle" TargetType="Label">
+        <Style.Setters>
+            <Setter Property="FontSize" Value="42" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Georgia" />
+            <Setter Property="Effect" Value="{StaticResource TextShadowDepth}" />
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="LabelStyle" TargetType="Label">
+        <Style.Setters>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="VerticalContentAlignment" Value="Bottom" />
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="SmallContainerStyle" TargetType="Grid">
+        <Style.Setters>
+            <Setter Property="Margin" Value="20 0" />
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="HeadingBorderStyle" TargetType="Border" >
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="0 0 0 2" />
+            <Setter Property="BorderBrush" Value="#FF1B1525" />
+            <Setter Property="Effect" Value="{StaticResource TextShadowDepth}" />
+        </Style.Setters>
+    </Style>
+
+</ResourceDictionary>

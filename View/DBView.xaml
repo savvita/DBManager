@@ -1,0 +1,72 @@
+﻿<Window x:Class="DBManager.View.DBView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:DBManager.View"
+        mc:Ignorable="d"
+        Title="Database View" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary Source="/View/StyleDictionary.xaml" />
+    </Window.Resources>
+
+    <Grid Style="{StaticResource ContainerStyle}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Border Style="{StaticResource HeadingBorderStyle}">
+                <Label Content="Databases" Style="{StaticResource LabelStyle}" />
+            </Border>
+            <TreeView x:Name="treeView" ItemsSource="{Binding Nodes}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
+                        <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                <e:Interaction.Behaviors>
+                    <local:BindableSelectedItemBehavior SelectedItem="{Binding SelectedTable, Mode=TwoWay}" />
+                </e:Interaction.Behaviors>
+            </TreeView>
+        </StackPanel>
+        <Grid Grid.Column="1" Margin="5 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button Command="{Binding AddRowCmd}" ToolTip="Add row" Margin="2">
+                    <materialDesign:PackIcon Kind="PlusThick" />
+                </Button>
+                <Button Command="{Binding EditRowCmd}" ToolTip="Edit row" Margin="2">
+                    <materialDesign:PackIcon Kind="Pencil" />
+                </Button>
+                <Button Command="{Binding DeleteRowCmd}" ToolTip="Delete row" Margin="2">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Style="{StaticResource HeadingBorderStyle}">
+                    <Label Grid.Row="0" Content="{Binding SelectedTableName, Mode=OneWay}" Style="{StaticResource LabelStyle}" />
+                </Border>
+                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+                    <DataGrid
+                        ItemsSource="{Binding TableDataView}" 
+                        AutoGenerateColumns="True" 
+                        CanUserAddRows="False" 
+                        IsReadOnly="True" 
+                        SelectedIndex="{Binding SelectedRowIndex}" />
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

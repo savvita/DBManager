@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="DBManager.View.CellInputControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:DBManager.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/View/StyleDictionary.xaml" />
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBox
+              materialDesign:HintAssist.Hint="{Binding ColumnName}"
+              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+              Text="{Binding Value}" 
+              IsReadOnly="{Binding IsReadOnly}"
+              VerticalAlignment="Center" />
+    </StackPanel>
+</UserControl>
