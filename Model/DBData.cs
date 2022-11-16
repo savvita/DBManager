@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using Dapper;
+using Dapper.Contrib.Extensions;
+using System.Dynamic;
 
 namespace DBManager.Model
 {
@@ -77,7 +80,7 @@ namespace DBManager.Model
                         {
                             continue;
                         }
-                        DBTable table = new DBTable() { TableName = row["TABLE_NAME"].ToString() };
+                        DBTable table = new DBTable() { TableName = row["TABLE_NAME"].ToString(), TableSchema = row["TABLE_SCHEMA"].ToString() };
 
                         restrictions[2] = row["TABLE_NAME"].ToString()!;
 
@@ -192,7 +195,7 @@ namespace DBManager.Model
                 {
                     await connection.OpenAsync();
 
-                    using (SqlCommand command = new SqlCommand($"select * from {tableName}", connection))
+                    using (SqlCommand command = new SqlCommand($"select top (1000) * from {tableName}", connection))
                     {
                         try
                         {
@@ -305,7 +308,7 @@ namespace DBManager.Model
                         foreach (var cell in row.Values)
                         {
 
-                            if(cell.Key.ToLower().Equals("id"))
+                            if (cell.Key.ToLower().Equals("id"))
                             {
                                 continue;
                             }
@@ -355,19 +358,9 @@ namespace DBManager.Model
             {
                 try
                 {
-                    await connection.OpenAsync();
+                    int rows = await connection.ExecuteAsync($"delete from[{tableName}] where [id]=@p0;", new { @p0 = id });
 
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        string sqlCommand = $"delete from[{tableName}] where [id]=@p0;";
-
-                        command.Parameters.Add(new SqlParameter("@p0", SqlDbType.Int)).Value = id;
-
-                        command.CommandText = sqlCommand.ToString();
-                        command.Connection = connection;
-
-                        return command.ExecuteNonQuery() > 0;
-                    }
+                    return rows > 0;
                 }
                 catch (Exception ex)
                 {
